@@ -41,14 +41,6 @@ fun CustomerDetailsScreen(
                 .padding(bottom = 8.dp),
         )
         OutlinedTextField(
-            value = namaPelanggan,
-            onValueChange = { namaPelanggan = it },
-            label = { Text(text = "Nama Pelanggan") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-        )
-        OutlinedTextField(
             value = nomorTelepon,
             onValueChange = { nomorTelepon = it },
             label = { Text(text = "Nomor Telepon") },
@@ -58,6 +50,14 @@ fun CustomerDetailsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp),
+        )
+        OutlinedTextField(
+            value = alamat,
+            onValueChange = { alamat = it },
+            label = { Text(text = "Alamat") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
         )
     }
 }
