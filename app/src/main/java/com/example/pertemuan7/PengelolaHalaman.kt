@@ -35,8 +35,10 @@ import com.example.pertemuan7.data.SumberData.flavor
 enum class PengelolaHalaman {
     Home,
     Rasa,
-    Summary
+    Summary,
+    CustomerDetails,
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EsJumboAppBar(
     bisaNavigasiBack: Boolean,
@@ -58,6 +60,7 @@ fun EsJumboAppBar(
         }
     )
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EsJumboApp(
     viewModel: OrderViewModel = viewModel(),
@@ -84,14 +87,12 @@ fun EsJumboApp(
             composable(route = PengelolaHalaman.Rasa.name){
                 val context = LocalContext.current
                 HalamanSatu(
-                    flavor.map{id -> context.resources.getString(id)},
-                    {viewModel.setRasa(it)},
-                    {viewModel.setJumlah(it)},
-                    { navController.navigate(PengelolaHalaman.Summary.name)},
-                    { cancelOrderAndNavigateToHome(viewModel,navController
-                    )
-                    }
-                )
+                    pilihanRasa = flavor.map { id -> context.resources.getString(id) },
+                    onSelectionChanged = { viewModel.setRasa(it) },
+                    onConfirmButtonClicked = { viewModel.setJumlah(it) },
+                    onNextButtonClicked = { navController.navigate(PengelolaHalaman.Summary.name) },
+                    onCancelButtonClicked = { navController.navigate(PengelolaHalaman.CustomerDetails.name)
+                    })
             }
             composable(route = PengelolaHalaman.Summary.name){
                 HalamanDua(orderUIState = uiState,
@@ -101,12 +102,7 @@ fun EsJumboApp(
         }
     }
 }
-private  fun cancelOrderAndNavigateToHome(viewModel: OrderViewModel,
-                                          navController: NavHostController
-){
-    viewModel.resetOrder()
-    navController.popBackStack(PengelolaHalaman.Home.name, inclusive = false)
-}
+
 private fun  cancelOrderAndNavigateToRasa(
     navController: NavHostController
 ){
